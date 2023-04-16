@@ -1,6 +1,8 @@
 import board
 import busio
+import logging
 import os
+import threading
 import time
 
 # Import MPR121 module.
@@ -28,18 +30,23 @@ def is_touched(i: int):
     return mpr121[i].value
 
 
-print("STARTED")
+def sensor_detection_thread(i: int):
+    if is_touched(i):
+        logging.info(f"DETCTED TOUCH FOR PIN {i}")
+        play_sound_for_pin(i)
 
-# Loop forever testing each input and printing when they're touched.
-while True:
-    for i in range(11):
-        if is_touched(i):
-            print("DETECTED TOUCH")
-            play_sound_for_pin(i)
+        while is_touched(i):
+            time.sleep(0.25)
 
-            while is_touched(i):
-                time.sleep(0.25)
+        logging.info(f"RELEASED TOUCH FOR PIN {i}")
 
-            print("RELEASED TOUCH")
 
-    time.sleep(0.25)  # Small delay to keep from spamming output messages.
+format = "%(asctime)s: %(message)s"
+logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
+
+logging.info("APPLICATION BOOTED")
+
+for i in range(11):
+    logging.info(f"STARTING THREAD FOR PIN {i}")
+    thread = threading.Thread(target=sensor_detection_thread, args=(1,))
+    thread.start()
