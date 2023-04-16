@@ -38,7 +38,10 @@ def sensor_detection_thread(i: int):
             process = play_sound_for_pin(i)
 
             logging.info(pprint.pformat(process))
-            logging.info(f"PID: {process.pid}")
+
+            while process.poll():
+                logging.info(f"PID: {process.pid}")
+                time.sleep(0.25)
 
             if is_touched(i):
                 logging.info(f"PIN {i} ACTIVE")
