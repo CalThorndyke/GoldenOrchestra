@@ -33,11 +33,11 @@ print("STARTED")
 # Loop forever testing each input and printing when they're touched.
 while True:
     for i in range(11):
-        if is_touched():
+        if is_touched(i):
             print("DETECTED TOUCH")
             play_sound_for_pin(i)
 
-            while is_touched():
+            while is_touched(i):
                 time.sleep(0.25)
 
             print("RELEASED TOUCH")
