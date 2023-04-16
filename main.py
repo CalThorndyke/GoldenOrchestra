@@ -2,7 +2,7 @@ import adafruit_mpr121
 import board
 import busio
 import logging
-import subprocess
+from subprocess import Popen
 import threading
 import time
 
@@ -20,8 +20,8 @@ def get_sound_for_pin(i: int) -> str:
         return "./Guzheng.wav"
 
 
-def play_sound_for_pin(i: int):
-    subprocess.run(["aplay", get_sound_for_pin(i)])
+def play_sound_for_pin(i: int) -> Popen:
+    return Popen(["aplay", get_sound_for_pin(i)])
 
 
 def is_touched(i: int):
@@ -33,12 +33,13 @@ def sensor_detection_thread(i: int):
     while True:
         if is_touched(i):
             logging.info(f"DETCTED TOUCH FOR PIN {i}")
-            play_sound_for_pin(i)
 
-            while is_touched(i):
+            process = play_sound_for_pin(i)
+
+            while is_touched(i) or process.poll():
                 time.sleep(0.25)
 
-            logging.info(f"RELEASED TOUCH FOR PIN {i}")
+            logging.info(f"PIN {i} READY TO RECIEVE EVENTS AGAIN")
 
 
 format = "%(asctime)s: %(message)s"
