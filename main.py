@@ -39,17 +39,17 @@ def sensor_detection_thread(i: int):
 
             logging.info(pprint.pformat(process))
 
-            while process.poll():
+            while process.poll() is None:
                 logging.info(f"PID: {process.pid}")
                 time.sleep(0.25)
 
-            if is_touched(i):
-                logging.info(f"PIN {i} ACTIVE")
-            if poll:
-                logging.info(f"PROCESS ID {poll}")
+            # if is_touched(i):
+            #     logging.info(f"PIN {i} ACTIVE")
+            # if poll:
+            #     logging.info(f"PROCESS ID {poll}")
 
-            while is_touched(i) or process.poll():
-                time.sleep(0.25)
+            # while is_touched(i) or process.poll() is None:
+            #     time.sleep(0.25)
 
             logging.info(f"PIN {i} READY TO RECIEVE EVENTS AGAIN")
 
