@@ -2,14 +2,14 @@ import adafruit_mpr121
 import board
 import busio
 import logging
-from subprocess import Popen
+from subprocess import Popen, DEVNULL
 import threading
 import time
 
-# Create I2C bus.
+END_ON_RELEASE = True
+
 i2c = busio.I2C(board.SCL, board.SDA)
 
-# Create MPR121 object.
 mpr121 = adafruit_mpr121.MPR121(i2c)
 
 
@@ -21,7 +21,7 @@ def get_sound_for_pin(i: int) -> str:
 
 
 def play_sound_for_pin(i: int) -> Popen:
-    return Popen(["aplay", get_sound_for_pin(i)], stdout=None)
+    return Popen(["aplay", get_sound_for_pin(i)], stdout=DEVNULL)
 
 
 def is_touched(i: int):
@@ -37,8 +37,13 @@ def sensor_detection_thread(i: int):
 
             process = play_sound_for_pin(i)
 
-            while is_touched(i) or process.poll() is None:
-                time.sleep(0.25)
+            if END_ON_RELEASE:
+                while is_touched(i):
+                    time.sleep(0.25)
+                process.kill()
+            else:
+                while is_touched(i) or process.poll() is None:
+                    time.sleep(0.25)
 
             logging.info(f"PIN {i} READY TO RECIEVE EVENTS AGAIN")
 
