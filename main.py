@@ -21,7 +21,7 @@ def get_sound_for_pin(i: int) -> str:
 
 
 def play_sound_for_pin(i: int) -> Popen:
-    return Popen(["aplay", get_sound_for_pin(i)])
+    return Popen(["aplay", get_sound_for_pin(i)], stdout=None)
 
 
 def is_touched(i: int):
