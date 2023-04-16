@@ -46,7 +46,15 @@ logging.basicConfig(format=format, level=logging.INFO, datefmt="%H:%M:%S")
 
 logging.info("APPLICATION BOOTED")
 
+threads = []
+
 for i in range(11):
     logging.info(f"STARTING THREAD FOR PIN {i}")
     thread = threading.Thread(target=sensor_detection_thread, args=(1,))
+    threads.append(thread)
+
+for thread in threads:
     thread.start()
+
+for thread in threads:
+    thread.join()
