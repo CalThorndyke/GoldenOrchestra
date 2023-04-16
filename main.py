@@ -12,8 +12,6 @@ i2c = busio.I2C(board.SCL, board.SDA)
 # Create MPR121 object.
 mpr121 = adafruit_mpr121.MPR121(i2c)
 
-# Play the sound file
-
 
 def play_sound():
     os.system("aplay ./sound.wav")
