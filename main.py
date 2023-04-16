@@ -38,6 +38,7 @@ def sensor_detection_thread(i: int):
             process = play_sound_for_pin(i)
 
             logging.info(pprint.pformat(process))
+            logging.info(f"PID: {process.pid}")
 
             if is_touched(i):
                 logging.info(f"PIN {i} ACTIVE")
