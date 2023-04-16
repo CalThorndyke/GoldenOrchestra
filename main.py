@@ -28,4 +28,7 @@ while True:
     if is_touched():
         play_sound()
 
+        while is_touched():
+            time.sleep(0.25)
+
     time.sleep(0.25)  # Small delay to keep from spamming output messages.
