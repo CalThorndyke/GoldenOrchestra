@@ -51,6 +51,5 @@ logging.info("APPLICATION BOOTED")
 threads = []
 
 for i in range(11):
-    thread = threading.Thread(target=sensor_detection_thread, args=(1,))
+    thread = threading.Thread(target=sensor_detection_thread, args=(i,))
     thread.start()
-    thread.join()
