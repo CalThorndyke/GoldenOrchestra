@@ -38,11 +38,12 @@ def sensor_detection_thread(i: int):
 
             poll = process.poll()
 
-            while is_touched(i) or poll:
-                if is_touched(i):
-                    logging.info(f"BLOCKED BY PIN {i}")
-                if poll:
-                    logging.info(f"BLOCKED BY PROCESS {poll}")
+            if is_touched(i):
+                logging.info(f"PIN {i} ACTIVE")
+            if poll:
+                logging.info(f"PROCESS ID {poll}")
+
+            while is_touched(i) or process.poll():
                 time.sleep(0.25)
 
             logging.info(f"PIN {i} READY TO RECIEVE EVENTS AGAIN")
