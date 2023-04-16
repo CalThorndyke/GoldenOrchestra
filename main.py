@@ -18,7 +18,7 @@ def play_sound():
 
 
 def is_touched():
-    return mpr121[0].value
+    return any(mpr121[i].value for i in range(12))
 
 
 # Loop forever testing each input and printing when they're touched.
