@@ -32,9 +32,11 @@ def sensor_detection_thread(i: int):
     logging.info(f"STARTING THREAD FOR PIN {i}")
     while True:
         if is_touched(i):
-            logging.info(f"DETCTED TOUCH FOR PIN {i}")
+            logging.info(f"DETECTED TOUCH FOR PIN {i}")
 
             process = play_sound_for_pin(i)
+
+            logging.info(f"DEBUG")
 
             while is_touched(i) or process.poll():
                 time.sleep(0.25)
