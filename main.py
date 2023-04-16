@@ -31,14 +31,16 @@ def is_touched(i: int):
 
 
 def sensor_detection_thread(i: int):
-    if is_touched(i):
-        logging.info(f"DETCTED TOUCH FOR PIN {i}")
-        play_sound_for_pin(i)
+    logging.info(f"STARTING THREAD FOR PIN {i}")
+    while True:
+        if is_touched(i):
+            logging.info(f"DETCTED TOUCH FOR PIN {i}")
+            play_sound_for_pin(i)
 
-        while is_touched(i):
-            time.sleep(0.25)
+            while is_touched(i):
+                time.sleep(0.25)
 
-        logging.info(f"RELEASED TOUCH FOR PIN {i}")
+            logging.info(f"RELEASED TOUCH FOR PIN {i}")
 
 
 format = "%(asctime)s: %(message)s"
@@ -49,12 +51,6 @@ logging.info("APPLICATION BOOTED")
 threads = []
 
 for i in range(11):
-    logging.info(f"STARTING THREAD FOR PIN {i}")
     thread = threading.Thread(target=sensor_detection_thread, args=(1,))
-    threads.append(thread)
-
-for thread in threads:
     thread.start()
-
-for thread in threads:
     thread.join()
