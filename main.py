@@ -2,6 +2,7 @@ import adafruit_mpr121
 import board
 import busio
 import logging
+import pprint
 from subprocess import Popen
 import threading
 import time
@@ -36,7 +37,7 @@ def sensor_detection_thread(i: int):
 
             process = play_sound_for_pin(i)
 
-            poll = process.poll()
+            logging.info(pprint.pformat(process))
 
             if is_touched(i):
                 logging.info(f"PIN {i} ACTIVE")
