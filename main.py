@@ -1,12 +1,10 @@
+import adafruit_mpr121
 import board
 import busio
 import logging
-import os
+import subprocess
 import threading
 import time
-
-# Import MPR121 module.
-import adafruit_mpr121
 
 # Create I2C bus.
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -17,13 +15,13 @@ mpr121 = adafruit_mpr121.MPR121(i2c)
 
 def get_sound_for_pin(i: int) -> str:
     if i in range(5):
-        return "Dizi.wav"
+        return "./Dizi.wav"
     else:
-        return "Guzheng.wav"
+        return "./Guzheng.wav"
 
 
 def play_sound_for_pin(i: int):
-    os.system(f"aplay ./{get_sound_for_pin(i)}")
+    subprocess.run(["aplay", get_sound_for_pin(i)])
 
 
 def is_touched(i: int):
@@ -50,6 +48,6 @@ logging.info("APPLICATION BOOTED")
 
 threads = []
 
-for i in range(11):
+for i in range(12):
     thread = threading.Thread(target=sensor_detection_thread, args=(i,))
     thread.start()
