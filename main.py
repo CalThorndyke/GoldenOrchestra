@@ -15,9 +15,9 @@ mpr121 = adafruit_mpr121.MPR121(i2c)
 
 def get_sound_for_pin(i: int) -> str:
     if i in range(5):
-        return "Dizi.mp3"
+        return "Dizi.wav"
     else:
-        return "Guzheng.mp3"
+        return "Guzheng.wav"
 
 
 def play_sound_for_pin(i: int):
