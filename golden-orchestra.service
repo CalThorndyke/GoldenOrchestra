@@ -1,0 +1,15 @@
+[Unit]
+Description=Boot up Golden orchestra program
+Documentation=https://github.com/CalThorndyke/GoldenOrchestra
+
+[Service]
+User=root
+Type=simple
+Restart=always
+RestartSec=1
+Environment=WAV_DIR=$PWD
+ExecStart=$PWD/.venv/bin/python $PWD/main.py
+
+[Install]
+WantedBy=multi-user.target
+

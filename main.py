@@ -1,3 +1,4 @@
+import os
 import adafruit_mpr121
 import board
 import busio
@@ -15,13 +16,13 @@ mpr121 = adafruit_mpr121.MPR121(i2c)
 
 def get_sound_for_pin(i: int) -> str:
     if i in range(5):
-        return "./Dizi.wav"
+        return "Dizi.wav"
     else:
-        return "./Guzheng.wav"
+        return "Guzheng.wav"
 
 
 def play_sound_for_pin(i: int) -> Popen:
-    return Popen(["aplay", get_sound_for_pin(i)], stdout=DEVNULL)
+    return Popen(["aplay", f"{os.environ['WAV_DIR']}/{get_sound_for_pin(i)}"], stdout=DEVNULL)
 
 
 def is_touched(i: int):
